@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/linearlayout_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/recycler_search_et"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="center"
+            android:hint="식물이름 검색하기"
+            android:inputType="text"
+            android:imeOptions="actionSearch"/>
+        <Button
+            android:id="@+id/recycler_search_btn"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#6AA65D"
+            android:layout_toRightOf="@+id/recycler_search_et"
+            android:text="검색" />
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearlayout_search"
+        android:layout_marginTop="16dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2" />
+
+
+
+
+
+</RelativeLayout>
