@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.kyjsoft.tp09plant.HomeFragmentRecyclerItem
 import com.kyjsoft.tp09plant.R
 import com.kyjsoft.tp09plant.activities.MainActivity
 import com.kyjsoft.tp09plant.adapters.HomeFragmentRecyclerAdapter
 import com.kyjsoft.tp09plant.databinding.FragmentHomeBinding
+import com.kyjsoft.tp09plant.model.HomeFragmentRecyclerItem
 
 class HomeFragment : Fragment() {
 
@@ -41,10 +41,11 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun loadData(){
+
+    }
+
 
 
 }
 
-private fun loadData(){
-
-}
