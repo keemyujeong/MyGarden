@@ -2,16 +2,13 @@ package com.kyjsoft.tp09plant
 
 import android.content.Context
 import java.util.ArrayList
-import com.kyjsoft.tp09plant.HomeFragmentRecyclerItem
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
-import com.kyjsoft.tp09plant.R
 import com.bumptech.glide.Glide
 import android.widget.ImageView
 import android.widget.TextView
-import com.kyjsoft.tp09plant.MainActivity
 
 class HomeFragmentRecyclerAdapter(
     var context: Context,

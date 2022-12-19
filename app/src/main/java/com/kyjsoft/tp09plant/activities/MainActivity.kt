@@ -2,13 +2,12 @@ package com.kyjsoft.tp09plant.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.result.ActivityResult
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.kyjsoft.tp09plant.HomeFragment
 import com.kyjsoft.tp09plant.R
 import com.kyjsoft.tp09plant.SearchFragment
 import com.kyjsoft.tp09plant.databinding.ActivityMainBinding
+import com.kyjsoft.tp09plant.fragments.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
