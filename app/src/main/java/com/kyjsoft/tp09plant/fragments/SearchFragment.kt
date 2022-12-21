@@ -32,6 +32,7 @@ class SearchFragment : Fragment() {
         binding.recycler.adapter = SearchFragmentRecyclerAdapter(requireContext(), items)
         binding.recyclerSearchBtn.setOnClickListener {
             loadData(binding.recyclerSearchEt.text.toString())
+
         }
 
     }

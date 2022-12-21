@@ -5,16 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kyjsoft.tp09plant.R
 import com.kyjsoft.tp09plant.databinding.HomefragmentRecyclerviewItemBinding
 import com.kyjsoft.tp09plant.model.HomeFragmentRecyclerItem
 
-class HomeFragmentRecyclerAdapter(val context: Context?, var items : MutableList<HomeFragmentRecyclerItem>) : RecyclerView.Adapter<com.kyjsoft.tp09plant.adapters.HomeFragmentRecyclerAdapter.VH>(){
-
+class HomeFragmentRecyclerAdapter(val context: Context, var items : MutableList<HomeFragmentRecyclerItem>) : RecyclerView.Adapter<com.kyjsoft.tp09plant.adapters.HomeFragmentRecyclerAdapter.VH>(){
 
     inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView){
         val binding = HomefragmentRecyclerviewItemBinding.bind(itemView)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -23,12 +22,12 @@ class HomeFragmentRecyclerAdapter(val context: Context?, var items : MutableList
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-
+        holder.binding.tvMyplant.text = items[position].myplantname
+        Glide.with(context).load(items[position].imgUrl).into(holder.binding.ivFavoritePlant)
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
-
 
 }

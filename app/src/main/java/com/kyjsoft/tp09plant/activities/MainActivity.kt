@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager
 import com.kyjsoft.tp09plant.R
 import com.kyjsoft.tp09plant.databinding.ActivityMainBinding
 import com.kyjsoft.tp09plant.fragments.HomeFragment
+import com.kyjsoft.tp09plant.fragments.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> tran.show(fragments[0]!!)
                 R.id.search -> {
                     if(fragments[1] == null) {
-                        fragments[1] == SearchFragment()
+                        fragments[1] = SearchFragment()
                         tran.add(R.id.fragment_container, fragments[1]!!)
                     }
                     tran.show(fragments[1]!!)

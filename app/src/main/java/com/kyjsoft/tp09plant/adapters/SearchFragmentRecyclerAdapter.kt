@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kyjsoft.tp09plant.R
+import com.kyjsoft.tp09plant.activities.DetailPlantActivity
 import com.kyjsoft.tp09plant.databinding.SearchfragmentRecyclerviewItemBinding
 import com.kyjsoft.tp09plant.model.SearchFragmentRecyclerItem
 
@@ -18,8 +19,12 @@ class SearchFragmentRecyclerAdapter(val context: Context, var items: MutableList
         val binding = SearchfragmentRecyclerviewItemBinding.bind(itemView)
         init {
             itemView.setOnClickListener {
+                val item = items[adapterPosition]
+                val intent = Intent(context, DetailPlantActivity::class.java)
+                intent.putExtra("title", item.title)
+                intent.putExtra("imgUrl", item.imgUrl)
+                context.startActivity(intent)
             }
-
         }
 
     }
