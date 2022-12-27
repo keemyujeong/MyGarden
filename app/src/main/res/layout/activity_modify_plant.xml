@@ -105,14 +105,28 @@
         android:maxLines="10"
         android:padding="16dp"/>
 
+
     <Button
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="저장"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:backgroundTint="#6AA65D"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"/>
+        android:text="저장" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="#6AA65D"
+        android:text="삭제" />
+
+
+
+
 
 
 

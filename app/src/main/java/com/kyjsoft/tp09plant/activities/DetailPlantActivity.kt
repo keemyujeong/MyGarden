@@ -18,6 +18,7 @@ class DetailPlantActivity : AppCompatActivity() {
 
         binding.ivBack.setOnClickListener {
             onBackPressed()
+            finish()
         }
 
         binding.btnSave.setOnClickListener {
@@ -25,8 +26,8 @@ class DetailPlantActivity : AppCompatActivity() {
             intent.putExtra("plantImg", imgUrl)
             intent.putExtra("plantName", title)
             startActivity(intent)
+            finish()
         }
-
 
 
         binding.tvTitle.text = intent.getStringExtra("title")

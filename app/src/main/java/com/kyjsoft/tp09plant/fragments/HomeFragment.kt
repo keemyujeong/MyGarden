@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.kyjsoft.tp09plant.R
 import com.kyjsoft.tp09plant.activities.MainActivity
 import com.kyjsoft.tp09plant.adapters.HomeFragmentRecyclerAdapter
 import com.kyjsoft.tp09plant.databinding.FragmentHomeBinding
+import com.kyjsoft.tp09plant.model.DBHelper
 import com.kyjsoft.tp09plant.model.HomeFragmentRecyclerItem
+import com.kyjsoft.tp09plant.model.PlantItem
 
 class HomeFragment : Fragment() {
 
@@ -30,19 +33,41 @@ class HomeFragment : Fragment() {
 
         binding.recycler.adapter = HomeFragmentRecyclerAdapter(requireContext(), items)
 
+        items.clear()
+        binding.recycler.adapter?.notifyDataSetChanged()
+
+        loadData()
+
+
         binding.ivAdd.setOnClickListener {
             (activity as MainActivity).binding.bnv.selectedItemId = R.id.search
         }
 
         binding.swipeRefresh.setOnRefreshListener {
+            items.clear()
             loadData()
-        }
 
+            binding.swipeRefresh.isRefreshing = false
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        items.clear()
+        binding.recycler.adapter?.notifyDataSetChanged()
+
+        loadData()
 
     }
 
-    private fun loadData(){
-
+    fun loadData(){
+        var item : MutableList<PlantItem> = DBHelper(requireContext()).selectDB()
+        item.let{
+            it.forEach {
+                items.add(HomeFragmentRecyclerItem(it.plantName, it.plantUrl))
+                binding.recycler.adapter?.notifyDataSetChanged()
+            }
+        }
     }
 
 

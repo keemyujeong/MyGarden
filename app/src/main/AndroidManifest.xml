@@ -27,6 +27,9 @@
             android:name=".activities.MainActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.ModifyPlantActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.IntroActivity"
             android:exported="true">
             <intent-filter>

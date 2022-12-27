@@ -3,19 +3,23 @@ package com.kyjsoft.tp09plant.activities
 import android.os.Bundle
 import android.widget.CalendarView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.kyjsoft.tp09plant.R
+import com.kyjsoft.tp09plant.databinding.ActivityModifyPlantBinding
 import com.kyjsoft.tp09plant.databinding.ActivitySavePlantBinding
+import com.kyjsoft.tp09plant.fragments.HomeFragment
 import com.kyjsoft.tp09plant.model.DBHelper
 import com.kyjsoft.tp09plant.model.PlantItem
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SavePlantActivity : AppCompatActivity() {
+class ModifyPlantActivity : AppCompatActivity() {
 
-    val binding by lazy {ActivitySavePlantBinding.inflate(layoutInflater)}
+    val binding by lazy {ActivityModifyPlantBinding.inflate(layoutInflater)}
     lateinit var myPlantName : String
+    lateinit var oldName :String
     lateinit var plantUrl : String
     lateinit var date : String
     lateinit var memo : String
@@ -28,10 +32,16 @@ class SavePlantActivity : AppCompatActivity() {
         Glide.with(this).load(intent.getStringExtra("plantImg")).into(binding.ivPlant)
         binding.tvPlantname.text = "이름 : " + intent.getStringExtra("plantName")
         binding.tvDateChoice.text = SimpleDateFormat("yyyy년 MM월 dd일").format(Date())
+        oldName = intent.getStringExtra("plantName").toString()
 
-        binding.tvDateChoice.setOnClickListener {showBottomSheetDialogCalendar()}
+        binding.tvDateChoice.setOnClickListener { showBottomSheetDialogCalendar() }
 
-        binding.btnSave.setOnClickListener { saveMyPlantInSqlite() }
+        binding.btnSave.setOnClickListener {
+            saveMyPlantInSqlite()
+        }
+        binding.btnDelete.setOnClickListener {
+
+        }
     }
 
     private fun saveMyPlantInSqlite() {
@@ -39,7 +49,7 @@ class SavePlantActivity : AppCompatActivity() {
         plantUrl = intent.getStringExtra("plantImg").toString()
         date = SimpleDateFormat("yyyy년 MM월 dd일").format(Date())
         memo = binding.etMemo.text.toString()
-        val db = DBHelper(this).insertDB(PlantItem(myPlantName, plantUrl, date, memo))
+        DBHelper(this).updateDB(oldName, PlantItem(myPlantName, plantUrl, date, memo))
         finish()
     }
 
