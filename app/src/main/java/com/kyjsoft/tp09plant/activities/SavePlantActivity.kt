@@ -30,7 +30,8 @@ class SavePlantActivity : AppCompatActivity() {
         binding.ivAdd.setOnClickListener {
             val intent = Intent(this@SavePlantActivity, CameraActivity::class.java)
             startActivity(intent)
-            Glide.with(this).load(intent.getStringExtra("imgUrl")).into(binding.ivPlant)
+            // TODO 더하기버튼 누르고 카메라 어플 갔다와서 찍은 uri값으로 글라이드해야하는데..
+            // TODO 이거 bottomsheet으로 사진 찍기, 사진 선택 탭 만들고 사진찍기는 콜백까지는 구현 못하는 걸로 ㅜㅜ..ㅜㅜ..ㅜㅜ..ㅜㅜ..ㅜㅜ.ㅜ.ㅜ.ㅜㅜ.ㅜ.ㅜ
         }
         binding.tvPlantname.text = "이름 : " + intent.getStringExtra("plantName")
         binding.tvDateChoice.text = SimpleDateFormat("yyyy년 MM월 dd일").format(Date())
@@ -45,7 +46,7 @@ class SavePlantActivity : AppCompatActivity() {
         plantUrl = intent.getStringExtra("plantImg").toString()
         date = SimpleDateFormat("yyyy년 MM월 dd일").format(Date())
         memo = binding.etMemo.text.toString()
-        val db = DBHelper(this).insertDB(PlantItem(myPlantName, plantUrl, date, memo))
+        DBHelper(this).insertDB(PlantItem(myPlantName, plantUrl, date, memo))
         finish()
     }
 

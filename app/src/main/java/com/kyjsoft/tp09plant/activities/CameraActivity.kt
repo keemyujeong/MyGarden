@@ -57,7 +57,7 @@ class CameraActivity : AppCompatActivity() {
     // 동적 퍼미션 카메라 기능 사용할 때 필요한 퍼미션
     override fun onRequestPermissionsResult(
         requestCode: Int,
-        permissions: Array<out String>,
+        permissions: Array<String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -114,8 +114,6 @@ class CameraActivity : AppCompatActivity() {
                 }
             }
         )
-
-
     }
 
     private fun startPreview(){
