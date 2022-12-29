@@ -1,7 +1,10 @@
 package com.kyjsoft.tp09plant.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.CalendarView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
@@ -33,6 +36,11 @@ class ModifyPlantActivity : AppCompatActivity() {
         binding.tvPlantname.text = "이름 : " + intent.getStringExtra("plantName")
         binding.tvDateChoice.text = SimpleDateFormat("yyyy년 MM월 dd일").format(Date())
         oldName = intent.getStringExtra("plantName").toString()
+        binding.ivAdd.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            resultLaucher.launch(intent)
+        }
 
         binding.tvDateChoice.setOnClickListener { showBottomSheetDialogCalendar() }
 
@@ -40,9 +48,21 @@ class ModifyPlantActivity : AppCompatActivity() {
             saveMyPlantInSqlite()
         }
         binding.btnDelete.setOnClickListener {
-
+            DBHelper(this).deleteDB(oldName)
+            finish()
+        }
+        binding.btnGoBack.setOnClickListener {
+            onBackPressed()
+            finish()
         }
     }
+
+    var resultLaucher : ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {result ->
+            if(result.resultCode != RESULT_CANCELED){
+                Glide.with(this).load(result.data?.data).into(binding.ivPlant)
+            }
+        }
 
     private fun saveMyPlantInSqlite() {
         myPlantName = binding.etMyPlantName.text.toString()

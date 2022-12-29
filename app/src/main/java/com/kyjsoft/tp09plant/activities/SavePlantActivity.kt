@@ -1,5 +1,6 @@
 package com.kyjsoft.tp09plant.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.CalendarView
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +27,10 @@ class SavePlantActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         Glide.with(this).load(intent.getStringExtra("plantImg")).into(binding.ivPlant)
+        binding.ivAdd.setOnClickListener {
+            val intent = Intent(this@SavePlantActivity, CameraActivity::class.java)
+            Glide.with(this).load(intent.getStringExtra("imgUrl")).into(binding.ivPlant)
+        }
         binding.tvPlantname.text = "이름 : " + intent.getStringExtra("plantName")
         binding.tvDateChoice.text = SimpleDateFormat("yyyy년 MM월 dd일").format(Date())
 
