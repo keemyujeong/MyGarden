@@ -29,6 +29,7 @@ class SavePlantActivity : AppCompatActivity() {
         Glide.with(this).load(intent.getStringExtra("plantImg")).into(binding.ivPlant)
         binding.ivAdd.setOnClickListener {
             val intent = Intent(this@SavePlantActivity, CameraActivity::class.java)
+            startActivity(intent)
             Glide.with(this).load(intent.getStringExtra("imgUrl")).into(binding.ivPlant)
         }
         binding.tvPlantname.text = "이름 : " + intent.getStringExtra("plantName")

@@ -18,8 +18,10 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.ExecutionException
 
 class CameraActivity : AppCompatActivity() {
 
@@ -80,14 +82,10 @@ class CameraActivity : AppCompatActivity() {
         // 1. 이미지를 캡쳐하고 파일에 파일명 붙여주기 (날짜로)
         val filename = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
         val contentValues = ContentValues()
-        contentValues.put(
-            MediaStore.MediaColumns.DISPLAY_NAME,
-            filename
-        )
+        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
         contentValues.put(MediaStore.MediaColumns.MIME_TYPE,"image/jpeg") // 확장자 타입 정해주기
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) contentValues.put(
-            MediaStore.MediaColumns.RELATIVE_PATH,
-            "Pictures/CameraX-Image"
+            MediaStore.MediaColumns.RELATIVE_PATH, "Pictures/CameraX-Image"
         )
 
         // 2. 찍은 사진 이미지 경로 관리 객체 -> 이 때 필요한게 파일명
@@ -95,7 +93,7 @@ class CameraActivity : AppCompatActivity() {
             contentResolver, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues
         ).build()
 
-        // 3. 이미지 캡쳐한테 사진 취득하라고 명령하기 -> 그 때 필요할 게 경로
+        // 3. 이미지 캡쳐한테 사진 취득하라고 명령하기 -> 그 때 필요한 게 경로
         imageCapture!!.takePicture(
             outputFileOptions,
             ContextCompat.getMainExecutor(this),
@@ -108,6 +106,7 @@ class CameraActivity : AppCompatActivity() {
                     val intent = Intent(this@CameraActivity, SavePlantActivity::class.java)
                     intent.putExtra("imgUrl", uri)
                     startActivity(intent)
+                    finish()
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -125,25 +124,35 @@ class CameraActivity : AppCompatActivity() {
         // 2. preview 준비가 끝났음을 알리는 리스너 (카메라준비, 이미지 캡쳐 객체준비)
         listenableFuture.addListener({
 
+            try {
+                // 카메라 기능 객체 가져오기
+                val cameraProvider = listenableFuture.get()
 
+                // 프리뷰 객체 생성
+                val preview = Preview.Builder().build()
+                // 프리뷰 객체가 사용할 고속 버퍼 뷰(SurfaceView, 화면을 빠르게 잡아내는 뷰) 설정
+                preview.setSurfaceProvider(binding.previewView!!.surfaceProvider)
 
-            val cameraProvider = listenableFuture.get()
-            val preview = Preview.Builder().build()
-            preview.setSurfaceProvider(binding.previewView!!.surfaceProvider)
+                // 디바이스에 있는 카메라 중 하나를 선택
+                val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-            cameraProvider.unbindAll()
+                cameraProvider.unbindAll() // 혹시 기존에 연결되어있는 카메라 기능들을 제거하고 내 앱 생명주기에 맞춰서 카메라 preview를 제어하도록
 
-            imageCapture = ImageCapture.Builder().build()
+                // bind 하기 전에 이미지 캡쳐를 하는 객체 생성하기
+                imageCapture = ImageCapture.Builder().build()
 
-
-            cameraProvider.bindToLifecycle(
-                this@CameraActivity,
-                cameraSelector,
-                preview,
-                imageCapture
-            )
-
+                // preview랑 imageCapture 둘다 생명 주기 에 붙여줌
+                cameraProvider.bindToLifecycle(
+                    this@CameraActivity,
+                    cameraSelector,
+                    preview,
+                    imageCapture
+                )
+            } catch (e: ExecutionException) {
+                e.printStackTrace()
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
         }, ContextCompat.getMainExecutor(this))
 
     }
