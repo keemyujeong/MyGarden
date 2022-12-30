@@ -52,8 +52,8 @@ class SavePlantActivity : AppCompatActivity() {
                 R.id.menu_take_picture -> {
                     val intent = Intent(this@SavePlantActivity, CameraActivity::class.java)
                     startActivity(intent)
-                    // TODO 더하기버튼 누르고 카메라 어플 갔다와서 찍은 uri값으로 글라이드해야하는데..
-                    // TODO 이거 bottomsheet으로 사진 찍기, 사진 선택 탭 만들고 사진찍기는 콜백까지는 구현 못하는 걸로 ㅜㅜ..ㅜㅜ..ㅜㅜ..ㅜㅜ..ㅜㅜ.ㅜ.ㅜ.ㅜㅜ.ㅜ.ㅜ
+                    // TODO 실디바이스에서 체크해본 적이 없어서 구동될 지 모름
+                    // 만약 안되면 cameraX 묵시적 인텐트로 콜백받을 거임.
                     Glide.with(this). load(intent.getStringExtra("imgUrl")).into(binding.ivPlant)
                 }
             }
