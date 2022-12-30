@@ -3,6 +3,9 @@ package com.kyjsoft.tp09plant.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.CalendarView
+import android.widget.PopupMenu
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -27,12 +30,7 @@ class SavePlantActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         Glide.with(this).load(intent.getStringExtra("plantImg")).into(binding.ivPlant)
-        binding.ivAdd.setOnClickListener {
-            val intent = Intent(this@SavePlantActivity, CameraActivity::class.java)
-            startActivity(intent)
-            // TODO 더하기버튼 누르고 카메라 어플 갔다와서 찍은 uri값으로 글라이드해야하는데..
-            // TODO 이거 bottomsheet으로 사진 찍기, 사진 선택 탭 만들고 사진찍기는 콜백까지는 구현 못하는 걸로 ㅜㅜ..ㅜㅜ..ㅜㅜ..ㅜㅜ..ㅜㅜ.ㅜ.ㅜ.ㅜㅜ.ㅜ.ㅜ
-        }
+        binding.ivAdd.setOnClickListener { clickAdd() }
         binding.tvPlantname.text = "이름 : " + intent.getStringExtra("plantName")
         binding.tvDateChoice.text = SimpleDateFormat("yyyy년 MM월 dd일").format(Date())
 
@@ -40,6 +38,36 @@ class SavePlantActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener { saveMyPlantInSqlite() }
     }
+
+    private fun clickAdd(){
+        val popupmenu = PopupMenu(this, binding.ivPlant)
+        menuInflater.inflate(R.menu.popup_iv, popupmenu.menu)
+        popupmenu.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.menu_pick_gallery -> {
+                    val intent = Intent(Intent.ACTION_PICK)
+                    intent.type = "image/*"
+                    resultLaucher.launch(intent)
+                }
+                R.id.menu_take_picture -> {
+                    val intent = Intent(this@SavePlantActivity, CameraActivity::class.java)
+                    startActivity(intent)
+                    // TODO 더하기버튼 누르고 카메라 어플 갔다와서 찍은 uri값으로 글라이드해야하는데..
+                    // TODO 이거 bottomsheet으로 사진 찍기, 사진 선택 탭 만들고 사진찍기는 콜백까지는 구현 못하는 걸로 ㅜㅜ..ㅜㅜ..ㅜㅜ..ㅜㅜ..ㅜㅜ.ㅜ.ㅜ.ㅜㅜ.ㅜ.ㅜ
+                    Glide.with(this). load(intent.getStringExtra("imgUrl")).into(binding.ivPlant)
+                }
+            }
+            false
+        }
+        popupmenu.show()
+    }
+
+    var resultLaucher : ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if(result.resultCode != RESULT_CANCELED){
+                Glide.with(this).load(result.data?.data).into(binding.ivPlant)
+            }
+        }
 
     private fun saveMyPlantInSqlite() {
         myPlantName = binding.etMyPlantName.text.toString()
