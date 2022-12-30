@@ -35,6 +35,7 @@ class ModifyPlantActivity : AppCompatActivity() {
         Glide.with(this).load(intent.getStringExtra("plantImg")).into(binding.ivPlant)
         binding.tvPlantname.text = "이름 : " + intent.getStringExtra("plantName")
         binding.tvDateChoice.text = SimpleDateFormat("yyyy년 MM월 dd일").format(Date())
+        // TODO 날짜랑 메모 sqlite에서 불러오기
         oldName = intent.getStringExtra("plantName").toString()
         binding.ivAdd.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
