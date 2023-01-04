@@ -39,6 +39,11 @@ class SavePlantActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener { saveMyPlantInSqlite() }
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        Glide.with(this). load(intent.getStringExtra("imgUrl")).into(binding.ivPlant)
+    }
+
     private fun clickAdd(){
         val popupmenu = PopupMenu(this, binding.ivPlant)
         menuInflater.inflate(R.menu.popup_iv, popupmenu.menu)
@@ -53,8 +58,6 @@ class SavePlantActivity : AppCompatActivity() {
                     val intent = Intent(this@SavePlantActivity, CameraActivity::class.java)
                     startActivity(intent)
                     // TODO 실디바이스에서 체크해본 적이 없어서 구동될 지 모름
-                    // 만약 안되면 cameraX 묵시적 인텐트로 콜백받을 거임.
-                    Glide.with(this). load(intent.getStringExtra("imgUrl")).into(binding.ivPlant)
                 }
             }
             false
