@@ -41,7 +41,11 @@ class SavePlantActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        Glide.with(this). load(intent.getStringExtra("imgUrl")).into(binding.ivPlant)
+        // TODO 이거 테스트 해보기
+        // 만약에 사진을 안찍고 돌아왔으면 갤러리앱으로 이동하면 안되잖아.
+        val captureIntent =  Intent(Intent.ACTION_PICK)
+        captureIntent.type = "image/*"
+        resultLaucher.launch(captureIntent)
     }
 
     private fun clickAdd(){
@@ -57,7 +61,6 @@ class SavePlantActivity : AppCompatActivity() {
                 R.id.menu_take_picture -> {
                     val intent = Intent(this@SavePlantActivity, CameraActivity::class.java)
                     startActivity(intent)
-                    // TODO 실디바이스에서 체크해본 적이 없어서 구동될 지 모름
                 }
             }
             false

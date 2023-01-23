@@ -101,11 +101,8 @@ class CameraActivity : AppCompatActivity() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     Toast.makeText(this@CameraActivity, "촬영성공", Toast.LENGTH_SHORT).show()
 
-                    val uri = outputFileResults.savedUri
+//                    val uri = outputFileResults.savedUri
 
-                    val intent = Intent(this@CameraActivity, SavePlantActivity::class.java)
-                    intent.putExtra("imgUrl", uri)
-                    startActivity(intent)
                     finish()
                 }
 
